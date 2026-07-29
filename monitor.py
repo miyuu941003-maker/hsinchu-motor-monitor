@@ -1,30 +1,11 @@
-from playwright.sync_api import sync_playwright
+import requests
 
 URL = "https://www.mvdis.gov.tw/m3-emv-trn/exm/locations"
 
+response = requests.get(
+    URL,
+    timeout=30
+)
 
-def check_booking():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=True,
-            args=["--disable-blink-features=AutomationControlled"]
-        )
-
-        page = browser.new_page()
-
-        page.goto(
-            URL,
-            wait_until="commit",
-            timeout=90000
-        )
-
-        page.wait_for_timeout(10000)
-
-        text = page.locator("body").inner_text()
-
-        print(text[:500])
-
-        browser.close()
-
-
-check_booking()
+print("狀態碼：", response.status_code)
+print(response.text[:500])
