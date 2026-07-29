@@ -8,7 +8,11 @@ def check_booking():
         browser = p.chromium.launch()
         page = browser.new_page()
 
-        page.goto(URL)
+        page.goto(
+            URL,
+            wait_until="domcontentloaded",
+            timeout=60000
+        )
 
         page.wait_for_timeout(5000)
 
